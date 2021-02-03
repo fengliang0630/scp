@@ -1,0 +1,10 @@
+{
+    "retCode": 0,
+    "result": {
+      "userInfo": {
+        "userId": "001",
+        "userName": "张三"
+      }
+    }
+  }
+  

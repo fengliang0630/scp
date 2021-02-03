@@ -1,0 +1,24 @@
+{
+    "retCode": 0,
+    "result": {
+      "menuData": [
+        {
+          "name": "基础支撑",
+          "icon": "home",
+          "children": [
+            {
+              "name": "身份认证",
+              "icon": "home",
+              "path": "/demo1/demo"
+            },
+            {
+              "name": "统一机构",
+              "icon": "home",
+              "path": "/demo2/demo"
+            }
+          ]
+        }
+      ]
+    }
+  }
+  

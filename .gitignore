@@ -1,3 +1,2 @@
-cps/node_modules/
-cps/dist
-cps/package-lock.json
+scp/node_modules/
+scp/package-lock.json
