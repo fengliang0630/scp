@@ -6,14 +6,13 @@ const state = () => ({
 
 const getters = {
     getUserInfo: (state, getters, rootState) => {
-        return state.userInfo || JSON.parse(sessionStorage.getItem('userInfo'));
+        return state.userInfo;
     }
 }
 
 const mutations = {
     setUserInfo(_state, _userInfo) {
         _state.userInfo = _userInfo;
-        sessionStorage.setItem('userInfo', JSON.stringify(_userInfo));
     }
 }
 
@@ -29,7 +28,6 @@ const actions = {
 }
 
 export default {
-    namespaced: true,
     state,
     getters,
     mutations,

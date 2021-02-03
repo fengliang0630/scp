@@ -6,11 +6,17 @@
 
 <script>
 import msgService from '@/service/msg.service';
+import { cacheData } from '@/utils/cache';
+
 export default {
   name: 'App',
   created() {
-    window.$bus = this.$bus;
+    window.$bus = this.$bus;  
+    this.$store.commit('cache');
     
+    cacheData(()=>{
+      sessionStorage.setItem("cacheData", JSON.stringify(this.$store.state));
+    });
   },
   mounted() {
     this.$bus.on('hoperun.message', function(_msg, _type) {
