@@ -1,7 +1,8 @@
 <template>
   <div v-if="routerView" class="main-container">
     <transition mode="out-in" name="fade-transform">
-      <keep-alive :include="cachedRoutes" :max="keepAliveMaxNum">
+      <!-- <keep-alive :include="cachedRoutes" :max="keepAliveMaxNum"> -->
+      <keep-alive :max="keepAliveMaxNum">
         <router-view :key="key" class="app-main-height" />
       </keep-alive>
     </transition>
@@ -15,6 +16,7 @@
 
 <script>
   import config from '@/config'
+import { mapGetters, mapActions } from "vuex";
 
   export default {
     name: 'Main',
@@ -29,7 +31,7 @@
     },
     computed: {
       cachedRoutes() {
-        const cachedRoutesArr = []
+        const cachedRoutesArr = ['demo1']
         return cachedRoutesArr
       },
       key() {
@@ -43,6 +45,22 @@
           this.routerView = true
         })
       });
+    },
+    methods: {
+      ...mapGetters({
+        getTabs: "tabs/getTabs"
+      }),
+      ...mapActions({
+        toggleActive: 'tabs/toggleActive'
+      }),
+    },
+    watch: {
+      $route(_to, _from) {
+        const activeTab = this.getTabs().activeTab;
+        if (_to.name !== activeTab.path) {
+          this.toggleActive(_to.name);
+        }
+      }
     }
   }
 </script>

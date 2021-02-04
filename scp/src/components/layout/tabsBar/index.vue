@@ -12,11 +12,11 @@
         :key="item.path"
         :label="item.name"
         :name="item.path"
-        :closable="!item.isClosed"
+        :closable="!!item.isClosed"
       ></el-tab-pane>
     </el-tabs>
 
-    <!-- <el-dropdown @command="handleCommand">
+    <el-dropdown @command="handleCommand">
       <span style="cursor: pointer">
         更多操作
         <i class="el-icon-arrow-down el-icon--right"></i>
@@ -39,7 +39,7 @@
           关闭全部
         </el-dropdown-item>
       </el-dropdown-menu>
-    </el-dropdown> -->
+    </el-dropdown>
   </div>
 </template>
 
@@ -48,12 +48,6 @@
 
   export default {
     name: "VabTabsBar",
-    data() {
-      return {
-      };
-    },
-    created() {
-    },
     computed: {
       tabs() {
         return this.getTabs().data;
@@ -68,13 +62,43 @@
       }),
       ...mapActions({
         toggleActive: 'tabs/toggleActive',
+        deleteRight: 'tabs/deleteRight',
+        deleteLeft: 'tabs/deleteLeft',
+        deleteOther: 'tabs/deleteOther',
+        deleteAll: 'tabs/deleteAll',
+        deleteOne: 'tabs/deleteOne'
       }),
+      handleCommand(command) {
+        switch (command) {
+          case "closeOtherstabs":
+            this.deleteOther();
+            break;
+          case "closeLefttabs":
+            this.deleteLeft();
+            break;
+          case "closeRighttabs":
+            this.deleteRight();
+            break;
+          case "closeAlltabs":
+            this.deleteAll();
+            this.refreshRoute(this.tabActive.path);
+            break;
+        }
+      },
+      // tab页签点击事件
       handleTabClick(_item) {
         this.toggleActive(_item.name);
-
+        this.$router.push({name: _item.name});
       },
-      handleTabRemove() {
-        debugger;
+      // tab页签删除事件
+      handleTabRemove(_path) {
+        const isCurrent = this.tabActive.path === _path;
+        this.deleteOne(_path);
+        isCurrent && this.$router.push({name: this.tabActive.path});
+      },
+      // 刷新tab页签事件
+      refreshRoute(_path) {
+        this.$router.push({name: _path});
       }
     }
   };

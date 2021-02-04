@@ -3,18 +3,38 @@
     "result": {
       "menuData": [
         {
+          "name": "首页",
+          "icon": "home",
+          "path": "home"
+        },
+        {
           "name": "基础支撑",
           "icon": "home",
           "children": [
             {
               "name": "身份认证",
               "icon": "home",
-              "path": "/demo1/demo"
+              "path": "demo1"
             },
             {
-              "name": "统一机构",
+              "name": "统一机构1",
               "icon": "home",
-              "path": "/demo2/demo"
+              "path": "demo2-1"
+            },
+            {
+              "name": "统一机构2",
+              "icon": "home",
+              "path": "demo2-2"
+            },
+            {
+              "name": "统一机构3",
+              "icon": "home",
+              "path": "demo2-3"
+            },
+            {
+              "name": "统一机构4",
+              "icon": "home",
+              "path": "demo2-4"
             }
           ]
         }

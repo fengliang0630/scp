@@ -2,7 +2,8 @@
   <el-scrollbar class="side-bar-container" :class="{ 'is-collapse': collapse }">
     <logo></logo>
     <el-menu :background-color="variables['menu-background']" mode="vertical" :unique-opened="uniqueOpened"
-      :text-color="variables['menu-color']" :active-text-color="variables['menu-color-active']" :collapse="collapse" :collapse-transition="true">
+      :text-color="variables['menu-color']" :active-text-color="variables['menu-color-active']" :default-active="defaultActive"
+      :collapse="collapse" :collapse-transition="true">
         <template v-for="(item,i) in menuData">
           <el-menu-item v-if="!item.children" :key="i" :index="item.path" :title="item.name" @click="menuClick(item)">
             <hoperun-icon :icon="['fas', item.icon]" class="vab-fas-icon" />
@@ -45,22 +46,29 @@ export default {
   computed: {
     ...mapGetters({
         collapse: "settings/collapse"
-      }),
+    }),
     variables() {
       return variables;
+    },
+    defaultActive() {
+      const activeTab = this.getTabs().activeTab;
+      return activeTab.path;
     }
-  },
-  components: {
-    'logo': Logo
   },
   methods: {
     ...mapActions({
       addTab: 'tabs/addTab',
     }),
+    ...mapGetters({
+        getTabs: "tabs/getTabs"
+    }),
     menuClick(_item) {
       this.addTab(_item);
-      this.$router.push(_item.path);
+      this.$router.push({name: _item.path});
     }
+  },
+  components: {
+    'logo': Logo
   }
 };
 </script>
