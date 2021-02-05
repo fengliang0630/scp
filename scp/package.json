@@ -1,7 +1,7 @@
 {
-  "name": "cps",
+  "name": "hoperun-vue",
   "version": "0.0.1",
-  "description": "cps重构系统",
+  "description": "润和vue新框架",
   "private": false,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
