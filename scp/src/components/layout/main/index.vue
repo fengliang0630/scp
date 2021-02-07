@@ -3,7 +3,7 @@
     <transition mode="out-in" name="fade-transform">
       <!-- <keep-alive :include="cachedRoutes" :max="keepAliveMaxNum"> -->
       <keep-alive :max="keepAliveMaxNum">
-        <router-view :key="key" class="app-main-height" />
+        <router-view :key="key" class="main-height" />
       </keep-alive>
     </transition>
     <footer class="footer-copyright">
@@ -74,7 +74,7 @@ import { mapGetters, mapActions } from "vuex";
     .vab-keel {
       margin: $base-padding;
     }
-    .app-main-height {
+    .main-height {
       min-height: $base-app-main-height;
     }
 

@@ -28,24 +28,21 @@
 import Logo from './logo';
 import variables from "@/../styles/variables.scss";
 import { mapGetters, mapActions } from "vuex";
-import api from '@/api';
 
 export default {
   name: "sideBar",
   data(){
     return {
-      uniqueOpened: true,
-      menuData: []
+      uniqueOpened: true
     }
   },
   created() {
-    this.$http.post(api.queryMenuData.url, {}).then(_data => {
-      this.menuData = _data.menuData;
-    });
+    this.queryMenuData();
   },
   computed: {
     ...mapGetters({
-        collapse: "settings/collapse"
+        collapse: "settings/collapse",
+        menuData: 'menu/getMenuTree'
     }),
     variables() {
       return variables;
@@ -58,6 +55,7 @@ export default {
   methods: {
     ...mapActions({
       addTab: 'tabs/addTab',
+      queryMenuData: 'menu/queryMenuData'
     }),
     ...mapGetters({
         getTabs: "tabs/getTabs"

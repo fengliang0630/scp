@@ -23,7 +23,7 @@ const actions = {
         });
     },
     logout({ dispatch, state, commit }) {
-        commit("setUserInfo", {});
+        commit("setUserInfo", null);
     }
 }
 

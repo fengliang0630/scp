@@ -1,9 +1,9 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Login from '../components/login';
-import Demo from '../components/demo';
 import Layout from '../components/Layout';
 import Home from '../components/home';
+import Store from '@/store';
 
 //在路由跳转的时候同一个路由多次添加是不被允许的
 //重写路由的push方法
@@ -13,23 +13,35 @@ Router.prototype.push = function push (to) {
 }
 
 Vue.use(Router);
+
 const router = new Router({
   routes: [
     { path: '', redirect: '/home' },
     { path: '/login', name: 'login', component: Login },
     { path: '/', name: 'layout0', meta: {title: '首页'}, component: Layout, children: [
       { path: 'home', name: 'home', component: Home }
-    ] },
-    { path: '/demo1', name: 'layout1', meta: {title: '测试1'}, component: Layout, children: [
-      { path: 'demo', name: 'demo1', meta: {title: '测试11'}, component: Demo }
-    ] },
-    { path: '/demo2', name: 'layout2', meta: {title: '测试2'}, component: Layout, children: [
-      { path: 'demo1', name: 'demo2-1', meta: {title: '测试2-1'}, component: Demo },
-      { path: 'demo2', name: 'demo2-2', meta: {title: '测试2-2'}, component: Demo },
-      { path: 'demo3', name: 'demo2-3', meta: {title: '测试2-3'}, component: Demo },
-      { path: 'demo4', name: 'demo2-4', meta: {title: '测试2-4'}, component: Demo }
-    ] },
+    ] }
   ]
 });
+
+router.beforeEach((to, from, next) => {
+  if (to.name === 'login') {
+    next(); 
+  } else {
+    const obj = JSON.parse(sessionStorage.getItem("cacheData")) || Store.state;
+    !!obj.user.userInfo ? next() : next({ name: 'login' })
+  }   
+})
+
+router.addRoutes([
+  { path: '/base', name: 'base', meta: {title: '基础支撑'}, component: ()=> import('../components/Layout'), children: [
+    { path: 'user', name: 'user', meta: {title: '用户管理'}, component: ()=> import('../views/base/user') },
+    { path: 'role', name: 'role', meta: {title: '角色管理'}, component: ()=> import('../views/base/role') },
+    { path: 'menu', name: 'menu', meta: {title: '菜单管理'}, component: ()=> import('../views/base/menu') },
+    { path: 'dept', name: 'dept', meta: {title: '部门管理'}, component: ()=> import('../views/base/dept') }
+  ] }
+])
+
+
 
 export default router;

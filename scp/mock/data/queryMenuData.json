@@ -10,31 +10,27 @@
         {
           "name": "基础支撑",
           "icon": "home",
+          "path": "base",
           "children": [
             {
-              "name": "身份认证",
+              "name": "用户管理",
               "icon": "home",
-              "path": "demo1"
+              "path": "user"
             },
             {
-              "name": "统一机构1",
+              "name": "角色管理",
               "icon": "home",
-              "path": "demo2-1"
+              "path": "role"
             },
             {
-              "name": "统一机构2",
+              "name": "菜单管理",
               "icon": "home",
-              "path": "demo2-2"
+              "path": "menu"
             },
             {
-              "name": "统一机构3",
+              "name": "部门管理",
               "icon": "home",
-              "path": "demo2-3"
-            },
-            {
-              "name": "统一机构4",
-              "icon": "home",
-              "path": "demo2-4"
+              "path": "dept"
             }
           ]
         }

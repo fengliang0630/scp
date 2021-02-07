@@ -1,31 +1,37 @@
 <template>
   <el-breadcrumb class="breadcrumb-container" separator=">">
-    <el-breadcrumb-item v-for="item in list" :key="item.path">
-      {{ item.meta.title }}
+    <el-breadcrumb-item v-for="item in breadcrumbList" :key="item.path">
+      {{ item.breadcrumbName || item.meta.title }}
     </el-breadcrumb-item>
   </el-breadcrumb>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
   export default {
     name: 'Breadcrumb',
     data() {
-      return {
-        list: this.getBreadcrumb(),
+      return {}
+    },
+    computed: {
+      breadcrumbList() {
+        let menuArray = this.menuData();
+        return this.$route.matched.filter(
+          (item, index) => {
+            const menu = menuArray.find(item => this.$route.matched[index].name === item.path) || {};
+            item.breadcrumbName = menu.name || '';
+            menuArray = menu.children || [];
+            return item.name && item.meta.title;
+          }
+        )
       }
     },
-    watch: {
-      $route() {
-        this.list = this.getBreadcrumb()
-      },
-    },
     methods: {
-      getBreadcrumb() {
-        return this.$route.matched.filter(
-          (item) => item.name && item.meta.title
-        )
-      },
-    },
+      ...mapGetters({
+          menuData: 'menu/getMenuTree'
+      })
+    }
   }
 </script>
 
