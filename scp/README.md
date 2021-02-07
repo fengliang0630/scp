@@ -1,21 +1,22 @@
-# ele-test
-
-> A Vue.js project
-
-## Build Setup
-
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+功能	详细说明
+人口基本信息管理	包括人员的姓名、性别、身份证号码、出生年月、民族、手机号码、籍贯、所属辖区等信息
+人口基本信息管理	提供基础的人口增加，修改，删除、查询，批量导入，批量导出的功能
+各民族人口比例图	基于人口数据，通过名族和性别维度统计，生成民族人口比例监控参数
+各民族人口比例图	根据民族人口比例参数，在监控大屏展示比例图
+单位行业场所管理	提供单位信息维护，单位名称、成立日期、公司规模、所属辖区、详细地址、简洁，所属行业、营业执照编码、税务登记号、联系电话、联系人、客户开户银行、客户银行账号、
+行业信息管理	国家标准行业信息的基本维护
+规模信息管理	规模参数维护
+出租房屋管理	房屋的基本信息，所在区域，以及出租人，承租人
+出租房屋管理	监控大屏显示出租房屋统计图
+无人机管理	无人机基本信息的维护，以及所属人员或者单位信息关联
+无人机管理	无人机基于个人和单位维度的信息统计，并可点击查询
+流动人口管理	提供流动人口的流出和流入的基本信息维护，并且可通过日期查询统计
+流动人口快速录入	提供基于《新中新DKQ-A16D身份证阅读器》识别的人口信息快速识别，以及流入/流出信息、手机号码的录入功能
+流动人口预警	流动人口录入系统后开始计时，达标预警指标的，在监控大屏显示预警信息
+流动人口曲线	基于日期和每日流动人口数据，展示流动人口曲线信息
+预警参数管理	3小时发现，6小时，9小时登记
+用户管理	用户的信息的基本维护，所属部门维护，角色分配，
+角色管理	角色信息的基本维护，菜单分配
+菜单管理	菜单信息维护
+部门管理	部门信息的基本维护，以及上下级关系管理
+登录功能	提供用户的登录、退出、密码修改的功能
