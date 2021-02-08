@@ -5,18 +5,18 @@
       "userList": [
         {
           "id": "1",
-          "name": "张三1",
-          "gender": "1",
-          "cardNo": "610302198905202056",
-          "birthday": "1989-05-20",
+          "name": "张三",
+          "gender": "0",
+          "cardNo": "610329196505190020",
+          "birthday": "1965-05-19",
           "nation": "汉族",
-          "telephone": "18706753455",
-          "nationPlace": "陕西省西安市",
-          "place": "莲湖区"
+          "telephone": "13289180009",
+          "nationPlace": "陕西省宝鸡市",
+          "place": "碑林区"
         },
         {
           "id": "2",
-          "name": "张三2",
+          "name": "李四",
           "gender": "1",
           "cardNo": "610302198905202056",
           "birthday": "1989-05-20",
@@ -27,12 +27,12 @@
         },
         {
           "id": "3",
-          "name": "张三3",
+          "name": "王五",
           "gender": "1",
-          "cardNo": "610302198905202056",
-          "birthday": "1989-05-20",
+          "cardNo": "612422199809120542",
+          "birthday": "1998-09-12",
           "nation": "汉族",
-          "telephone": "18706753455",
+          "telephone": "18739876549",
           "nationPlace": "陕西省西安市",
           "place": "莲湖区"
         }

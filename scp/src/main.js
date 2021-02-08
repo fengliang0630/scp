@@ -5,6 +5,7 @@ import VueBus from 'vue-bus';
 import config from "@/config";
 import router from "@/router";
 import store from "@/store";
+import filters from '@/filters';
 import components from './components';
 import globalSetting from './global_setting';
 
@@ -20,6 +21,7 @@ Vue.use(globalSetting);
 Vue.use(components);
 Vue.use(ElementUI);
 Vue.use(VueBus);
+Vue.use(filters);
 
 Vue.config.productionTip = false
 

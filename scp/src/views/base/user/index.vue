@@ -1,8 +1,8 @@
 <template>
   <hoperun-list ref="hoperunList" :listConfig="listConfig" @pageChange="pageChange"
     @addUser="addUser" :listData="listData">
-      <template v-slot:type="data">
-        <span>{{data.row.type | codeValueFilter('TYPES', data.row.type)}}</span>
+      <template v-slot:gender="data">
+        <span>{{data.row.gender | codeValueFilter('GENDER', data.row.gender)}}</span>
       </template>
       <template v-slot:op="data">
         <i title="修改" class="pointer el-icon-edit" @click="updateHandler(data.row)"></i>
@@ -26,7 +26,7 @@ import api from '@/api';
           ],
           tableHeaders: [
             { label: "姓名", prop: "name", width: 100 },
-            { label: "性别", prop: "gender", width: 100 },
+            { label: "性别", prop: "gender", width: 100, isSlot: true },
             { label: "身份证", prop: "cardNo", width: 200 },
             { label: "出生年月", prop: "birthday", width: 100 },
             { label: "民族", prop: "nation", width: 80 },
