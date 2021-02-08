@@ -7,6 +7,6 @@ export default {
     url: './CPS', 
     // 是否请求mock数据                          
     isMock: true,  
-    //是否显示页面底部自定义版权信息
+    // 是否显示页面底部自定义版权信息
     copyright: '润和软件版权所有'
 }

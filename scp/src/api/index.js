@@ -1,7 +1,4 @@
-export default {
-    // 登陆
-    login: { url: 'login', mockUrl: /\/login/ },
+import common from './common';
+import user from './user';
 
-    // 查询菜单数据
-    queryMenuData: { url: 'queryMenuData', mockUrl: /\/queryMenuData/ }
-}
+export default { common, user }

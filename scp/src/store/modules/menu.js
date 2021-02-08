@@ -18,7 +18,7 @@ const mutations = {
 
 const actions = {
     queryMenuData({ dispatch, state, commit }, _params) {
-        window.$http.post(api.queryMenuData.url, _params).then( data => {
+        window.$http.post(api.common.queryMenuData.url, _params).then( data => {
             commit("setMenuTree", data.menuData);
         });
     }

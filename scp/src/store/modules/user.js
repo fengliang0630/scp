@@ -18,7 +18,7 @@ const mutations = {
 
 const actions = {
     login({ dispatch, state, commit }, _params) {
-        window.$http.post(api.login.url, _params).then( data => {
+        window.$http.post(api.common.login.url, _params).then( data => {
             commit("setUserInfo", data.userInfo);
         });
     },

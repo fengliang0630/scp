@@ -54,6 +54,7 @@ export default {
   height: 100%;
 
   .layout-container-vertical {
+    height: calc(100% - #{$base-nav-bar-height} - #{$base-tabs-bar-height});
     position: relative;
 
     .mask {
@@ -80,7 +81,6 @@ export default {
 
     .main-div {
       position: relative;
-      min-height: 100%;
       margin-left: $base-left-menu-width;
       background: #f6f8f9;
       transition: $base-transition;
