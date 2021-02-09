@@ -1,6 +1,6 @@
 <template>
   <div>
-    <hoperun-list ref="hoperunList" :listConfig="listConfig" @queryData="queryData"
+    <scp-list ref="customList" :listConfig="listConfig" @queryData="queryData"
       @addUser="addUser">
         <template v-slot:gender="data">
           <span>{{data.row.gender | codeValueFilter('GENDER', data.row.gender)}}</span>
@@ -13,9 +13,9 @@
           <i title="查看" class="pointer el-icon-view" @click="viewHandler(data.row)"></i>
           <i title="删除" class="pointer el-icon-delete" @click="deleteItem(data.row)"></i>
         </template>
-    </hoperun-list>
+    </scp-list>
 
-    <hoperun-dialog v-if="!!dialogConfig.visible" :dialogConfig="dialogConfig" @sureHandler="sureHandler"></hoperun-dialog>
+    <scp-dialog v-if="!!dialogConfig.visible" :dialogConfig="dialogConfig" @sureHandler="sureHandler"></scp-dialog>
     </div>
 </template>
 
@@ -103,13 +103,13 @@ export default {
   },
   mounted() {
     /** 首次加载 查询数据*/
-    const queryParams = this.$refs.hoperunList.getQueryParams();
+    const queryParams = this.$refs.customList.getQueryParams();
     this.queryData(queryParams);
   },
   methods: {
     queryData(_queryParams) {
       this.$http.post(api.user.queryUserList.url, {}).then( data => {
-          this.$refs.hoperunList.setTableData(data.userList, data.total);
+          this.$refs.customList.setTableData(data.userList, data.total);
       });
     },
     /** 新增用户 */

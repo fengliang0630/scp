@@ -11,7 +11,7 @@
       <el-col :xs="20" :sm="12" :md="12" :lg="12" :xl="12">
         <div class="right-panel">
           <full-screen @refresh="refreshRoute"></full-screen>
-          <hoperun-icon
+          <scp-icon
             title="重载所有路由"
             :pulse="pulse"
             :icon="['fas', 'redo']"

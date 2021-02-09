@@ -23,19 +23,19 @@
       </span>
       <el-dropdown-menu slot="dropdown" class="tabs-more">
         <el-dropdown-item command="closeOtherstabs">
-          <hoperun-icon :icon="['fas', 'times-circle']" />
+          <scp-icon :icon="['fas', 'times-circle']" />
           关闭其他
         </el-dropdown-item>
         <el-dropdown-item command="closeLefttabs">
-          <hoperun-icon :icon="['fas', 'arrow-alt-circle-left']"></hoperun-icon>
+          <scp-icon :icon="['fas', 'arrow-alt-circle-left']"></scp-icon>
           关闭左侧
         </el-dropdown-item>
         <el-dropdown-item command="closeRighttabs">
-          <hoperun-icon :icon="['fas', 'arrow-alt-circle-right']"></hoperun-icon>
+          <scp-icon :icon="['fas', 'arrow-alt-circle-right']"></scp-icon>
           关闭右侧
         </el-dropdown-item>
         <el-dropdown-item command="closeAlltabs">
-          <hoperun-icon :icon="['fas', 'ban']"></hoperun-icon>
+          <scp-icon :icon="['fas', 'ban']"></scp-icon>
           关闭全部
         </el-dropdown-item>
       </el-dropdown-menu>

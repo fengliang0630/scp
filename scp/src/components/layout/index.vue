@@ -7,7 +7,7 @@
           <nav-bar></nav-bar>
           <tab-bar></tab-bar>
         </div>
-        <hoperun-main></hoperun-main>
+        <custom-main></custom-main>
       </div>
     </div>
   </div>
@@ -30,7 +30,7 @@ export default {
   components: {
     'side-bar': SideBar,
     'nav-bar': NavBar,
-    'hoperun-main': Main,
+    'custom-main': Main,
     'tab-bar': TabsBar
   }
 };

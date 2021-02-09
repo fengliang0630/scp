@@ -4,7 +4,7 @@
         <div class="content">
           <slot v-if="!dialogConfig.type || dialogConfig.type === 'slot'"></slot>
           <div v-if="dialogConfig.type === 'form' && !!formItems && !!formItems.length">
-            <hoperun-form ref="dialogForm" :formItems="formItems" :noButtonFlag="true" @submitForm="submitForm"></hoperun-form>
+            <scp-form ref="dialogForm" :formItems="formItems" :noButtonFlag="true" @submitForm="submitForm"></scp-form>
           </div>
         </div>
         <span slot="footer" class="dialog-footer">

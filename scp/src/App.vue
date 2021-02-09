@@ -7,6 +7,7 @@
 <script>
 import msgService from '@/service/msg.service';
 import { cacheData } from '@/utils/cache';
+import config from '@/config';
 
 export default {
   name: 'App',
@@ -19,7 +20,7 @@ export default {
     });
   },
   mounted() {
-    this.$bus.on('hoperun.message', function(_msg, _type) {
+    this.$bus.on(`${config.systemFlag}.message`, function(_msg, _type) {
       msgService[_type].apply(this, [_msg]);
     });
   }

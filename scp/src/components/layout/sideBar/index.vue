@@ -6,16 +6,16 @@
       :collapse="collapse" :collapse-transition="true">
         <template v-for="(item,i) in menuData">
           <el-menu-item v-if="!item.children" :key="i" :index="item.path" :title="item.name" @click="menuClick(item)">
-            <hoperun-icon :icon="['fas', item.icon]" class="vab-fas-icon" />
+            <scp-icon :icon="['fas', item.icon]" class="vab-fas-icon" />
             <span>{{item.name}}</span>
           </el-menu-item>
           <el-submenu v-else :key="i" :index="`${i}`" :title="item.name">
             <template slot="title">
-              <hoperun-icon :icon="['fas', item.icon]" class="vab-fas-icon" />
+              <scp-icon :icon="['fas', item.icon]" class="vab-fas-icon" />
               <span>{{item.name}}</span>
             </template>
             <el-menu-item v-for="(subItem,j) in item.children" :key="`${i}-${j}`" :index="subItem.path" :title="subItem.name" @click="menuClick(subItem)">
-              <hoperun-icon :icon="['fas', subItem.icon]" class="vab-fas-icon" />
+              <scp-icon :icon="['fas', subItem.icon]" class="vab-fas-icon" />
               <span>{{subItem.name}}</span>
             </el-menu-item>
           </el-submenu>

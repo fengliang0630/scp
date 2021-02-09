@@ -18,19 +18,19 @@ export default {
     Vue.prototype.$msg = (() => {
       const msgTool = {
         success(_msg) {
-          window.$bus.emit('hoperun.message', _msg, 'success');
+          window.$bus.emit(`${config.systemFlag}.message`, _msg, 'success');
         },
         warning(_msg) {
-            window.$bus.emit('hoperun.message', _msg, 'warning');
+            window.$bus.emit(`${config.systemFlag}.message`, _msg, 'warning');
         },
         error(_msg) {
-            window.$bus.emit('hoperun.message', _msg, 'error');
+            window.$bus.emit(`${config.systemFlag}.message`, _msg, 'error');
         },
         alert(_option) {
-            window.$bus.emit('hoperun.message', _option, 'alert');
+            window.$bus.emit(`${config.systemFlag}.message`, _option, 'alert');
         },
         confirm(_option) {
-            window.$bus.emit('hoperun.message', _option, 'confirm');
+            window.$bus.emit(`${config.systemFlag}.message`, _option, 'confirm');
         }
       };
       window.$msg = msgTool;

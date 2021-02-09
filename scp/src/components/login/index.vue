@@ -10,20 +10,20 @@
           <div class="title-tips">欢迎来到&nbsp;&nbsp;{{ title }}！</div>
           <el-form-item style="margin-top: 40px" prop="username">
             <span class="svg-container svg-container-admin">
-              <hoperun-icon :icon="['fas', 'user']" />
+              <scp-icon :icon="['fas', 'user']" />
             </span>
             <el-input v-model.trim="form.username" v-focus placeholder="请输入用户名" tabindex="1" type="text" />
           </el-form-item>
           <el-form-item prop="password">
             <span class="svg-container">
-              <hoperun-icon :icon="['fas', 'lock']" />
+              <scp-icon :icon="['fas', 'lock']" />
             </span>
             <el-input :key="passwordType" ref="password" v-model.trim="form.password" :type="passwordType" tabindex="2" placeholder="请输入密码" @keyup.enter.native="handleLogin" />
             <span v-if="passwordType === 'password'" class="show-password" @click="handlePassword">
-              <hoperun-icon :icon="['fas', 'eye-slash']"/>
+              <scp-icon :icon="['fas', 'eye-slash']"/>
             </span>
             <span v-else class="show-password" @click="handlePassword">
-              <hoperun-icon :icon="['fas', 'eye']"/>
+              <scp-icon :icon="['fas', 'eye']"/>
             </span>
           </el-form-item>
           <el-button :loading="loading" class="login-btn" type="primary" @click="handleLogin">

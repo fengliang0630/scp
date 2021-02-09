@@ -8,7 +8,7 @@
     </transition>
     <footer class="footer-copyright">
       Copyright
-      <hoperun-icon :icon="['fas', 'copyright']"></hoperun-icon>
+      <scp-icon :icon="['fas', 'copyright']"></scp-icon>
       {{copyright}} {{ fullYear }}
     </footer>
   </div>

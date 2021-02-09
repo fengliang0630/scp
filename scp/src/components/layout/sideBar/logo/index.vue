@@ -1,7 +1,7 @@
 <template>
   <div class="logo-container-vertical">
     <router-link to="/">
-      <hoperun-icon :icon="['fas', 'home']" class="logo" />
+      <scp-icon :icon="['fas', 'home']" class="logo" />
       <span class="title" :title="title">
         {{ title }}
       </span>
