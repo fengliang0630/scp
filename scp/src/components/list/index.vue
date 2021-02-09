@@ -1,5 +1,14 @@
 <template>
-  <div id="list" :class="['custom-list', className]">
+  <div id="list" :class="['custom-list', className]" @click="showFilter = false">
+    <div v-if="!!listConfig.formItems" class="custom-filter" @click="filterDivClick($event)">
+      <div :class="{'filter-contain': true, 'closed': !showFilter}" class="filter-contain">
+        <hoperun-form ref="filterForm" :formItems="formItems" size="mini" submitBtnContext="查询" cancelBtnContext="重置"
+          @submitForm="submitForm" @cancel="cancel"></hoperun-form>
+      </div>
+      <div :class="{'filter-toggle': true, 'is-show': showFilter}">
+        <hoperun-icon :class="{'filter-toggle-btn': true}" :icon="['fas', !showFilter ? 'angle-down' : 'angle-up']" @click="toggleFilter($event)"></hoperun-icon>
+      </div>
+    </div>
     <div>
       <div v-if="!!listConfig || $slots.top" class="btn-div">
         <div v-if="listConfig.buttons" class="custom-btn">
@@ -25,8 +34,7 @@
         </template>
       </el-table-column>
     </el-table>
-
-    <el-pagination v-if="!!isPagination" 
+    <el-pagination v-if="!!isPagination" ref="customPagination"
       class="custom-pagination"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
@@ -40,14 +48,16 @@
 </template>
 
 <script>
-import listConfig from '@/config/listConfig';
+import defaultListConfig from '@/config/listConfig';
+import codeValue from '@/config/codeValue';
 
 export default {
   name: "List",
   data() {
     return {
-      pageSize: listConfig.pagination.size,
-      pageSizes: listConfig.pagination.sizes,
+      showFilter: false,
+      pageSize: defaultListConfig.pagination.size,
+      pageSizes: defaultListConfig.pagination.sizes,
       multipleSelection: null,
       tableHeight: 0,
       currentPage: 1,
@@ -57,6 +67,9 @@ export default {
   },
   created() {
     this.listConfig.key = this.listConfig.key || 'id';
+    if (!this.listConfig.formItems) {
+      this.listConfig.buttons.push({ label: "查询", handlerMethod: "queryData" });
+    }
   },
   props: {
     isPagination: {         // 表格是否需要分页
@@ -66,6 +79,7 @@ export default {
     /**
      * buttons: Array,       // 表格外顶部按钮
      * tableHeaders: Array,    // 表格表头
+     * formItems: Array       // 过滤条件配置
      * key: String,         // 唯一标识key
      */
     listConfig: {
@@ -106,30 +120,67 @@ export default {
     this.$nextTick(() => {
       const paginationHeight = this.isPagination ? 80 : 35;
       this.tableHeight = document.getElementById('list').offsetHeight - paginationHeight;
-
       this.tableData = this.listData;
     });
   },
+  computed: {
+    formItems() {
+      const _formItems = this.listConfig.formItems;
+      _formItems.forEach(item => {
+        const obj = { colLength: 6 }
+        if (item.inputType === 'select' && typeof item.items === 'string') {
+          obj.items = [];
+          for (let [value, label] of Object.entries(codeValue[item.items])) {
+            obj.items.push({ label, value });
+          }
+        }
+        Object.assign(item, obj);
+      });
+      return _formItems;
+    }
+  },
   methods: {
-    /** 动态填充html时  判断content的类型 */
-    getTypes(_p) {
-      return Object.prototype.toString.call(_p);
+    filterDivClick(e) {
+      e.stopPropagation();
+    },
+    toggleFilter(e) {
+      this.showFilter = !this.showFilter;
+      e.stopPropagation();
+    },
+    queryData() {
+      const params = this.getQueryParams();
+      this.$emit('queryData', params);
+    },
+    submitForm(_value) {
+      this.pageSize = defaultListConfig.pagination.size;
+      this.currentPage = 1;
+      this.showFilter = false;
+      this.queryData();
+    },
+    cancel() {
+      this.$refs.filterForm.resetForm();
+      this.pageSize = defaultListConfig.pagination.size;
+      this.currentPage = 1;
+      this.showFilter = false;
+      this.queryData();
     },
     /** 自定义事件， 需要往父组件扔出去 */
     customEvent(_eventName) {
+      const params = this.getQueryParams();
       if(this.isCheckbox) {
-        this.$emit(_eventName, this.multipleSelection);
+        this.$emit(_eventName, params, this.multipleSelection);
       } else {
-        this.$emit(_eventName);
+        this.$emit(_eventName, params);
       }
     },
     handleSizeChange(_val) {
       this.pageSize = _val;
       this.currentPage = 1;
-      this.$emit('pageChange', {size: this.pageSize, pageNum: 1});
+      this.queryData();
     },
     handleCurrentChange(_val) {
-      this.$emit('pageChange', {size: this.pageSize, pageNum: _val});
+      this.currentPage = _val;
+      this.queryData();
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
@@ -171,9 +222,19 @@ export default {
       }
       return _obj;
     },
-    /** 获取系统默认单页查询条数 */
-    getDefaultPageSize() {
-      return listConfig.defaultPageSize;
+    // 获取查询参数
+    getQueryParams() {
+      const params = {};
+      // 存在分页的情况
+      if (!!this.isPagination) {
+        Object.assign(params, {size: this.pageSize, pageNum: this.currentPage});
+      }
+
+      if (!!this.listConfig.formItems) {
+        Object.assign(params, this.$refs.filterForm.getData());
+      }
+
+      return params;
     }
   }
 };
@@ -184,6 +245,55 @@ export default {
   height: 100%;
   overflow: hidden;
   position: relative;
+
+  .custom-filter {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    overflow: hidden;
+
+    .filter-contain {
+      background-color: #fff;
+      padding: 20px;
+      overflow: hidden;
+      box-shadow: 0 2px 4px #e7e7e7, 0 0 6px #fff;
+      border-bottom-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+      &.closed {
+        padding: 0;
+        height: 0;
+      }
+    }
+
+    .filter-toggle {
+      height: 5px;
+      text-align: center;
+      
+      .filter-toggle-btn {
+        width: 100px;
+        height: 0;
+        background-color: #e7e7e7;
+        box-shadow: 0 2px 4px #e7e7e7, 0 0 6px #fff;
+        cursor: pointer;
+      }
+
+      &:hover {
+        height: 20px;
+        .filter-toggle-btn {
+          height: 20px;
+        }
+      }
+
+      &.is-show {
+        height: 20px;
+        .filter-toggle-btn {
+          height: 20px;
+        }
+      }
+    }
+  }
 
   .btn-div {
     padding: 3px;
