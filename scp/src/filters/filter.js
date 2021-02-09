@@ -1,11 +1,13 @@
 import codeValues from '@/config/codeValue';
 
-const codeValueFilter = (_key, _types) => {
-    let retVal = _key;
-    if (typeof(codeValues[_types][_key]) !== 'undefined') {
-        retVal = codeValues[_types][_key];
+const codeValueFilter = (_value, _codeValueKey) => {
+    const option = codeValues[_codeValueKey];
+    for (let [label, value] of Object.entries(option)) {
+       if (value === _value) {
+            return label;
+       }
     }
-    return retVal;
+    return _value;
 }
 
 export { codeValueFilter };

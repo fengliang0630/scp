@@ -9,14 +9,12 @@
         <hoperun-icon :class="{'filter-toggle-btn': true}" :icon="['fas', !showFilter ? 'angle-down' : 'angle-up']" @click="toggleFilter($event)"></hoperun-icon>
       </div>
     </div>
-    <div>
-      <div v-if="!!listConfig || $slots.top" class="btn-div">
-        <div v-if="listConfig.buttons" class="custom-btn">
-          <el-button v-for="b in listConfig.buttons" :key="b.label" type="primary" size="mini" @click="customEvent(b.handlerMethod)">{{b.label}}</el-button>
-        </div>
-        <div v-if="$slots.topBar" class="custom-btn">
-          <slot name="topBar"></slot>
-        </div>
+    <div v-if="!!listConfig || $slots.top" class="btn-div">
+      <div v-if="listConfig.buttons" class="custom-btn">
+        <el-button v-for="b in listConfig.buttons" :key="b.label" type="primary" size="mini" @click="customEvent(b.handlerMethod)">{{b.label}}</el-button>
+      </div>
+      <div v-if="$slots.topBar" class="custom-btn">
+        <slot name="topBar"></slot>
       </div>
     </div>
     <el-table v-if="!!listConfig && !!listConfig.tableHeaders" class="custom-table" :data="tableData" :height="tableHeight" @selection-change="handleSelectionChange" style="width: 100%">
@@ -36,6 +34,7 @@
     </el-table>
     <el-pagination v-if="!!isPagination" ref="customPagination"
       class="custom-pagination"
+      :background="true"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page.sync="currentPage"
@@ -130,7 +129,7 @@ export default {
         const obj = { colLength: 6 }
         if (item.inputType === 'select' && typeof item.items === 'string') {
           obj.items = [];
-          for (let [value, label] of Object.entries(codeValue[item.items])) {
+          for (let [label, value] of Object.entries(codeValue[item.items])) {
             obj.items.push({ label, value });
           }
         }
@@ -241,7 +240,9 @@ export default {
 </script>
 
 <style lang="scss">
+@import "@/../styles/variables.scss";
 .custom-list {
+  min-height: $base-app-main-height;
   height: 100%;
   overflow: hidden;
   position: relative;

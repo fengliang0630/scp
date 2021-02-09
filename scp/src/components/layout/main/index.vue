@@ -76,7 +76,7 @@ import { mapGetters, mapActions } from "vuex";
     }
     .main-height {
       min-height: $base-app-main-height;
-      padding: 20px;
+      padding: 0 20px;
     }
 
     .footer-copyright {

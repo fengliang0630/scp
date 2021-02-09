@@ -109,7 +109,7 @@ export default {
     },
     labelLength: {
       type: String,
-      default: '150px'
+      default: '80px'
     },
     formItems: {
       type: Array,
@@ -181,10 +181,19 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .custom-form {
-  margin-top: 22px;
   width: 100%;
+  .demo-ruleForm {
+    &:after{
+      content:".";       
+      display:block;       
+      height:0;       
+      clear:both;       
+      visibility:hidden;       
+  
+    }
+  }
   .form-title {
     margin-bottom: 8px;
   }
