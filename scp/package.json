@@ -16,7 +16,9 @@
     "axios": "0.19.2",
     "element-ui": "2.15.0",
     "vab-icon": "^0.0.1",
-    "screenfull": "^5.1.0"
+    "screenfull": "^5.1.0",
+    "xlsx": "0.16.9",
+    "file-saver": "2.0.5"
   },
   "devDependencies": {
     "mockjs": "1.1.0",

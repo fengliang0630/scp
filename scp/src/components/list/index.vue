@@ -32,23 +32,27 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-pagination v-if="!!isPagination" ref="customPagination"
-      class="custom-pagination"
-      :background="true"
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-      :current-page.sync="currentPage"
-      :page-sizes="pageSizes"
-      :page-size="pageSize"
-      layout="total, sizes, prev, pager, next, jumper"
-      :total="total">
-    </el-pagination>
+    <div class="custom-pagination-div">
+      <el-pagination v-if="!!isPagination" ref="customPagination"
+        class="custom-pagination"
+        :background="true"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page.sync="currentPage"
+        :page-sizes="pageSizes"
+        :page-size="pageSize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total">
+      </el-pagination>
+      <scp-icon title="导出当前页" :icon="['fas', 'file-export']" class="download-btn" @click="exportCurrentPageHandler"></scp-icon>
+    </div>
   </div>
 </template>
 
 <script>
 import defaultListConfig from '@/config/listConfig';
 import codeValue from '@/config/codeValue';
+import xlsxUtils from '@/utils/xlsx';
 
 export default {
   name: "List",
@@ -139,6 +143,17 @@ export default {
     }
   },
   methods: {
+    // 到处当前页  待处理
+    exportCurrentPageHandler() {
+      const table = document.createElement('table');
+      const headerTable = document.getElementsByTagName('table')[0]; 
+      const bodyTable = document.getElementsByTagName('table')[1]; 
+      const html = [];
+      html.push(headerTable.innerHTML);
+      html.push(bodyTable.innerHTML)
+      table.innerHTML = html.join('');
+      xlsxUtils.exportExcel(table, 'xxx');
+    },
     filterDivClick(e) {
       e.stopPropagation();
     },
@@ -330,10 +345,26 @@ export default {
     margin-bottom: 30px;
   }
 
-  .custom-pagination {
-    position: absolute;
-    right: 40px;
-    bottom: 0px;
+  .custom-pagination-div{
+      position: relative;
+      height: 35px;
+    .custom-pagination {
+      position: absolute;
+      right: 40px;
+      bottom: 0px;
+    }
+
+    .download-btn {
+      position: absolute;
+      right: 17px;
+      bottom: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      &:hover {
+        color: #5470c6;
+      }
+    }
   }
+  
 }
 </style>
