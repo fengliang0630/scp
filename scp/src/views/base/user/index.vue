@@ -75,6 +75,11 @@ export default {
             rules: [{ required: true, message: '身份证为必输项', trigger: 'blur' }]
           },
           { 
+            key: 'birthday', 
+            label: '出生年月:',
+            inputType: 'date'
+          },
+          { 
             key: 'nation', 
             label: '民族:', 
             inputType: 'select', 
@@ -83,11 +88,6 @@ export default {
           { 
             key: 'telephone', 
             label: '手机:'
-          },
-          { 
-            key: 'birthday', 
-            label: '出生年月:',
-            inputType: 'date'
           },
           { 
             key: 'nationPlace', 

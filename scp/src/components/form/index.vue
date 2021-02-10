@@ -185,13 +185,20 @@ export default {
 .custom-form {
   width: 100%;
   .demo-ruleForm {
+    /deep/ .el-col {
+      > .el-form-item {
+        .el-form-item--mini {
+          margin-bottom: 0;
+        }
+      }
+    }
+
     &:after{
       content:".";       
       display:block;       
       height:0;       
       clear:both;       
-      visibility:hidden;       
-  
+      visibility:hidden;
     }
   }
   .form-title {
