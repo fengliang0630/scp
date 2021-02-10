@@ -1,7 +1,6 @@
 <template>
   <div>
-    <scp-list ref="customList" :listConfig="listConfig" @queryData="queryData"
-      @addUser="addUser">
+    <scp-list ref="customList" :listConfig="listConfig" @queryData="queryData" @addUser="addUser">
         <template v-slot:gender="data">
           <span>{{data.row.gender | codeValueFilter('GENDER', data.row.gender)}}</span>
         </template>
@@ -16,7 +15,7 @@
     </scp-list>
 
     <scp-dialog v-if="!!dialogConfig.visible" :dialogConfig="dialogConfig" @sureHandler="sureHandler"></scp-dialog>
-    </div>
+  </div>
 </template>
 
 <script>
@@ -26,15 +25,11 @@ export default {
   name: 'User',
   data() {
     return {
+      dialogType: null,
       listConfig: {
         formItems: [
           { key: 'name', label: '姓名:'},
-          {
-            key: 'gender',
-            label: '性别:',
-            inputType: 'select',
-            items: 'GENDER',
-          }
+          { key: 'gender', label: '性别:', inputType: 'select', items: 'GENDER' }
         ],
         buttons: [
           { label: '新增用户', handlerMethod: 'addUser' }
@@ -90,11 +85,11 @@ export default {
             label: '手机:'
           },
           { 
-            key: 'nationPlace', 
+            key: 'nationPlace',
             label: '籍贯:'
           },
           { 
-            key: 'place', 
+            key: 'place',
             label: '所属辖区:'
           }          
         ]
@@ -103,10 +98,13 @@ export default {
   },
   mounted() {
     /** 首次加载 查询数据*/
-    const queryParams = this.$refs.customList.getQueryParams();
-    this.queryData(queryParams);
+    this.resetLoad();
   },
   methods: {
+    resetLoad() {
+      const queryParams = this.$refs.customList.getQueryParams();
+      this.queryData(queryParams);
+    },
     queryData(_queryParams) {
       this.$http.post(api.user.queryUserList.url, {}).then( data => {
           this.$refs.customList.setTableData(data.userList, data.total);
@@ -117,26 +115,65 @@ export default {
       this.dialogConfig.formItems.forEach(item => {
         item.value = '';
       });
+      this.dialogType = {
+        type: 'add'
+      };
+      this.dialogConfig.title = '新增用户';
       this.dialogConfig.visible = true;
     },
     /** 修改 */
     updateHandler(row) {
-      this.dialogConfig.formItems.forEach(item => {
-        item.value = row[item.key];
+      this.$http.post(api.user.queryUserInfoById.url, {id: row.id}).then( data => {
+        this.dialogConfig.formItems.forEach(item => {
+          item.value = data.userInfo[item.key];
+        });
+        this.dialogType = {
+          type: 'update',
+          id: row.id
+        };
+        this.dialogConfig.title = '修改用户';
+        this.dialogConfig.visible = true;
       });
-      this.dialogConfig.visible = true;
+    },
+    viewHandler(row) {
+      this.$http.post(api.user.queryUserInfoById.url, {id: row.id}).then( data => {
+        this.dialogConfig.formItems.forEach(item => {
+          item.value = data.userInfo[item.key];
+          item.disabledModify = true;
+        });
+        this.dialogConfig.title = '查看用户';
+        this.dialogConfig.visible = true;
+      });
     },
     /** 删除 */
     deleteItem(row) {
       this.$msg.confirm({
         msg: '确认删除该信息？',
         confirmCallback: () => {
-          debugger;
+          this.$http.post(api.user.deleteUserById.url, {}).then( res => {
+            this.$msg.success('删除成功');
+            this.resetLoad();
+          });
         }
       });
     },
     sureHandler(_data) {
-      debugger;
+      if(!!this.dialogType && this.dialogType.type === 'update') {
+        _data.id = this.dialogType.id;
+        this.saveOrUpdate(_data, '修改用户成功');
+      }
+
+      if(!!this.dialogType && this.dialogType.type === 'add') {
+        _data.id = this.dialogType.id;
+        this.saveOrUpdate(_data, '新增用户成功');
+      }
+    },
+    saveOrUpdate(_data, _msg) {
+      this.$http.post(api.user.deleteUserById.url, _data).then( res => {
+        this.dialogType = null;
+        this.$msg.success(_msg);
+        this.resetLoad();
+      });
     }
   },
 }

@@ -1,0 +1,17 @@
+{
+    "retCode": 0,
+    "result": {
+      "userInfo": {
+        "id": "1",
+        "name": "张三",
+        "gender": "0",
+        "cardNo": "610329196505190020",
+        "birthday": "1965-05-19",
+        "nation": "0",
+        "telephone": "13289180009",
+        "nationPlace": "陕西省宝鸡市",
+        "place": "碑林区"
+      }
+    }
+  }
+  

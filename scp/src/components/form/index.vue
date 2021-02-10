@@ -3,33 +3,34 @@
     <div v-if="!!formItems">
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" :label-width="labelLength" class="demo-ruleForm" :size="size" >
         <el-col v-for="item in formItems" :key="item.key" :span="item.colLength || 12">
-          <el-form-item :label="item.label" :prop="item.key"  v-if="!item.hideFlag">
+          <el-form-item :label="item.label" :prop="item.key">
 
-            <el-input v-model="ruleForm[item.key]" :disabled="item.disabledModify||disabledModify" v-if="!item.inputType||(item.inputType === 'input')" :placeholder="item.placeholder||''">
+            <el-input v-model="ruleForm[item.key]" :disabled="item.disabledModify||disabledModify" :clearable="true"
+              v-if="!item.inputType||(item.inputType === 'input')" :placeholder="item.placeholder||'请输入'">
               <template v-if="item.slots && item.slots.prepend" slot="prepend">{{item.slots.prepend}}</template>
               <template v-if="item.slots && item.slots.append" slot="append">{{item.slots.append}}</template>
             </el-input>
 
             <el-select v-if="item.inputType === 'select'" v-model="ruleForm[item.key]" :disabled="item.disabledModify||disabledModify" 
-              :placeholder="item.placeholder||''" @change="methodHandler($event, 'change', item)">
+              :placeholder="item.placeholder||'请选择'" @change="methodHandler($event, 'change', item)">
               <el-option  v-for="option in item.items" :key="option.value"  :label="option.label" :value="option.value" ></el-option>
             </el-select>
 
             <el-col :span="24" v-if="item.inputType === 'date'">
               <el-form-item prop="date1">
-                <el-date-picker type="date"  :placeholder="item.placeholder||''" v-model="ruleForm[item.key]" :disabled="item.disabledModify||disabledModify" style="width: 100%"></el-date-picker>
+                <el-date-picker type="date"  :placeholder="item.placeholder||'请选择'" v-model="ruleForm[item.key]" :disabled="item.disabledModify||disabledModify" style="width: 100%"></el-date-picker>
               </el-form-item>
             </el-col>
 
             <el-col :span="24" v-if="item.inputType === 'buttonInput'">
-              <el-input  :placeholder="item.placeholder||''" v-model="ruleForm[item.key]" class="button-input">
+              <el-input  :placeholder="item.placeholder||'请选择'" v-model="ruleForm[item.key]" class="button-input">
                 <el-button slot="append" :icon="button.icon"  v-for="button in item.items" :key="button.key"  @click="openDialog(item.key,button.key)"  :disabled="item.disabledModify||disabledModify"></el-button>
               </el-input>
             </el-col>
 
             <el-col :span="24" v-if="item.inputType === 'tipInput'">
               <el-col :span="24-item.items.length*1">
-                  <el-input v-model="ruleForm[item.key]" :disabled="item.disabledModify||disabledModify" :placeholder="item.placeholder||''"></el-input>
+                  <el-input v-model="ruleForm[item.key]" :disabled="item.disabledModify||disabledModify" :placeholder="item.placeholder||'请输入'"></el-input>
               </el-col>
               <el-col :span="1" class="tip-input" v-for="tip in item.items" :key="tip.key">
                 <el-tooltip class="item" :effect="tip.effect" :content="tip.content" :placement="tip.placement">
@@ -51,9 +52,6 @@
             <el-input type="textarea" v-model="ruleForm[item.key]" :disabled="item.disabledModify||disabledModify" v-if="item.inputType === 'textarea'"  :placeholder="item.placeholder||''" :rows="item.rows || 4" :resize="item.resize?'vertical':'none'"></el-input>
 
           </el-form-item>
-
-          <el-col class="form-title" v-else-if="item.inputType === 'title'"><div :style="item.style">{{item.label}}</div></el-col>
-
         </el-col>
 
         <el-col v-if="!noButtonFlag" :span="24" class="footer-button" >
@@ -201,9 +199,7 @@ export default {
       visibility:hidden;
     }
   }
-  .form-title {
-    margin-bottom: 8px;
-  }
+
   .button-input .el-button + .el-button {
     margin-left: 20px;
     border-left: 1px solid #dcdfe6;
