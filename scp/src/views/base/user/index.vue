@@ -1,12 +1,6 @@
 <template>
   <div>
-    <scp-list ref="customList" :listConfig="listConfig" @queryData="queryData" @addUser="addUser">
-        <template v-slot:gender="data">
-          <span>{{data.row.gender | codeValueFilter('GENDER', data.row.gender)}}</span>
-        </template>
-        <template v-slot:nation="data">
-          <span>{{data.row.nation | codeValueFilter('NATION', data.row.nation)}}</span>
-        </template>
+    <scp-list ref="customList" :listConfig="listConfig" @queryData="queryData" @addUser="addUser" :exportName="'用户数据'">
         <template v-slot:op="data">
           <i title="修改" class="pointer el-icon-edit" @click="updateHandler(data.row)"></i>
           <i title="查看" class="pointer el-icon-view" @click="viewHandler(data.row)"></i>
@@ -36,14 +30,14 @@ export default {
         ],
         tableHeaders: [
           { label: '姓名', prop: 'name', width: 80 },
-          { label: '性别', prop: 'gender', width: 80, isSlot: true },
+          { label: '性别', prop: 'gender', width: 80, codeValueKey: 'GENDER' },
           { label: '身份证', prop: 'cardNo', width: 200 },
           { label: '出生年月', prop: 'birthday', width: 100 },
-          { label: '民族', prop: 'nation', width: 80, isSlot: true },
+          { label: '民族', prop: 'nation', width: 80, codeValueKey: 'NATION' },
           { label: '手机', prop: 'telephone', width: 150 },
           { label: '籍贯', prop: 'nationPlace', width: 200 },
           { label: '所属辖区', prop: 'place', width: 100 },
-          { label: '操作', prop: 'op', isSlot: true },
+          { label: '操作', prop: 'op', isSlot: true, noExport: true },
         ],
         total: 0,
       },

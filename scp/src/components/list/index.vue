@@ -28,12 +28,15 @@
       <el-table-column v-for="h in listConfig.tableHeaders" :key="h.prop" :prop="h.prop" :label="h.label" :width="h.width">
         <template slot-scope="scope">
           <slot v-if="h.isSlot" :name="h.prop" :row="scope.row" :index="scope.$index"></slot>
-          <div v-if="!h.isSlot" v-html="scope.row[h.prop]"></div>
+          <div v-else-if="!h.isSlot && !h.codeValueKey" v-html="scope.row[h.prop]"></div>
+          <div v-else-if="!h.isSlot && h.codeValueKey">
+            <span>{{scope.row[h.prop] | codeValueFilter(h.codeValueKey, scope.row[h.prop])}}</span>
+          </div>
         </template>
       </el-table-column>
     </el-table>
-    <div class="custom-pagination-div">
-      <el-pagination v-if="!!isPagination" ref="customPagination"
+    <div v-if="!!isPagination.pagination" class="custom-pagination-div">
+      <el-pagination ref="customPagination"
         class="custom-pagination"
         :background="true"
         @size-change="handleSizeChange"
@@ -44,7 +47,7 @@
         layout="total, sizes, prev, pager, next, jumper"
         :total="total">
       </el-pagination>
-      <scp-icon title="导出当前页" :icon="['fas', 'file-export']" class="download-btn" @click="exportCurrentPageHandler"></scp-icon>
+      <scp-icon v-if="!!isPagination.exportCurrent" title="导出当前页" :icon="['fas', 'file-export']" class="download-btn" @click="exportCurrentPageHandler"></scp-icon>
     </div>
   </div>
 </template>
@@ -53,6 +56,7 @@
 import defaultListConfig from '@/config/listConfig';
 import codeValue from '@/config/codeValue';
 import xlsxUtils from '@/utils/xlsx';
+import { codeValueFilter } from '@/filters/filter';
 
 export default {
   name: "List",
@@ -75,9 +79,18 @@ export default {
     }
   },
   props: {
+    exportName: {
+      type: String,
+      default: '导出数据'
+    },
     isPagination: {         // 表格是否需要分页
-      type: Boolean,
-      default: true
+      type: Object,
+      default: () => {
+        return {
+          pagination: true,
+          exportCurrent: true
+        }
+      }
     },
     /**
      * buttons: Array,       // 表格外顶部按钮
@@ -145,14 +158,42 @@ export default {
   methods: {
     // 到处当前页  待处理
     exportCurrentPageHandler() {
+      this.exportData(this.tableData, `${this.exportName}（当前页）`);
+    },
+    exportData(_tableData, _fileName) {
       const table = document.createElement('table');
-      const headerTable = document.getElementsByTagName('table')[0]; 
-      const bodyTable = document.getElementsByTagName('table')[1]; 
-      const html = [];
-      html.push(headerTable.innerHTML);
-      html.push(bodyTable.innerHTML)
-      table.innerHTML = html.join('');
-      xlsxUtils.exportExcel(table, 'xxx');
+      const thead = document.createElement('thead');
+      const tbody = document.createElement('tbody');
+      const header_tr = document.createElement('tr');
+
+      _tableData.forEach((_data, _index) => {
+        const body_tr = document.createElement('tr');
+        this.listConfig.tableHeaders.forEach(header => {
+          if (!!header.noExport) {
+            return;
+          }
+
+          if (_index === 0) {
+            const th = document.createElement('th');
+            const text = document.createTextNode(header.label);
+            th.appendChild(text);
+            header_tr.appendChild(th);
+            thead.appendChild(header_tr);
+          }
+
+          const td = document.createElement('td');
+          td.setAttribute('t', 's');
+          const textTem = !!header.codeValueKey ? codeValueFilter(_data[header.prop], header.codeValueKey) : _data[header.prop];
+          const body_text = document.createTextNode(textTem);
+          td.appendChild(body_text);
+          body_tr.appendChild(td);
+        });
+        tbody.appendChild(body_tr);
+      });
+      
+      table.appendChild(thead);
+      table.appendChild(tbody);
+      xlsxUtils.exportExcelByTable(table, _fileName);
     },
     filterDivClick(e) {
       e.stopPropagation();
@@ -342,7 +383,7 @@ export default {
       text-align: center!important;
     }
 
-    margin-bottom: 30px;
+    margin-bottom: 20px;
   }
 
   .custom-pagination-div{
