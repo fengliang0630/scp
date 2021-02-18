@@ -131,6 +131,10 @@ export default {
     },
     viewHandler(row) {
       this.$http.post(api.user.queryUserInfoById.url, {id: row.id}).then( data => {
+        this.dialogType = {
+          type: 'view',
+          id: row.id
+        };
         this.dialogConfig.formItems.forEach(item => {
           item.value = data.userInfo[item.key];
           item.disabledModify = true;
