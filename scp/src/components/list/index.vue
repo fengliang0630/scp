@@ -382,8 +382,6 @@ export default {
     th, td {
       text-align: center!important;
     }
-
-    margin-bottom: 20px;
   }
 
   .custom-pagination-div{
